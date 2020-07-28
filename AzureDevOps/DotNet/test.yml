@@ -1,0 +1,49 @@
+parameters:
+  buildConfiguration: "Release"
+  pool: Default
+  cascades: []
+
+jobs:
+  - job: "DotNet"
+    pool: ${{ parameters.pool }}
+    variables:
+      - group: global-var-pipelines
+      - name: SharedPackagesFolder
+        value: "/root/.nuget/dolittle-packages"
+
+    steps:
+      - checkout: self
+        submodules: recursive
+        
+      - task: Dolittle.tasks.SetupBuildContext.SetupBuildContext@1
+        name: Context
+        displayName: Setting up context
+        inputs:
+          Connection: 'service-dolittle-build'
+
+      - task: Dolittle.tasks.CalculateNewVersion.CalculateNewVersion@1
+        name: NewVersion
+        displayName: Calculating new version
+        inputs:
+          PreviousVersion: $(Context.PreviousVersion)
+          ReleaseType: $(Context.ReleaseType)
+      
+      - template: "./build.yml"
+      
+      - template: "./publish.yml"
+
+      - task: Dolittle.tasks.TagNewVersion.TagNewVersion@1
+        condition: and(succeeded(), eq(variables['Context.ShouldPublish'], 'true'))
+        displayName: Tagging new version
+        inputs:
+          Connection: 'service-dolittle-build'
+          Version: $(NewVersion.NextVersion)
+
+      - task: Dolittle.tasks.TriggerCascadingBuilds.TriggerCascadingBuilds@1
+        condition: and(succeeded(), eq(variables['Context.ShouldPublish'], 'true'), ne(variables['Context.ReleaseType'], 'major'))
+        displayName: Triggering cascading builds
+        inputs:
+          Connection: 'service-dolittle-build'
+          ShouldPublish: $(Context.ShouldPublish)
+          NextVersion: $(NewVersion.NextVersion)
+          Cascades: ${{ join(',', parameters.cascades) }}

@@ -1,0 +1,19 @@
+
+pool: 
+  vmImage: "ubuntu-latest"
+
+variables:
+  buildConfiguration: "Release"
+
+stages:
+  - stage: Build
+    jobs:
+      - job: "DotNet"
+        steps:
+          - checkout: self
+            submodules: recursive
+
+          - template: "./build.yml"
+          
+      - job: "Docker"
+        template: "../Docker/build.yml"
