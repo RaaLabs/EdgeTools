@@ -5,7 +5,7 @@ parameters:
   type: string
 
 - name: pool
-  displayName: Pool OS
+  displayName: Pool os
   default: ubuntu-latest
   values:
   - ubuntu-latest
