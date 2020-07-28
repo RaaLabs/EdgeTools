@@ -6,7 +6,8 @@ parameters:
 
   jobs:
     - job: "DotNet"
-      pool: ${{ parameters.pool }}
+      pool: 
+        vmImage: ${{ parameters.pool }}
       steps:
         - checkout: self
           submodules: recursive
