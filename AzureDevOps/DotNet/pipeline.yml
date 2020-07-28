@@ -1,11 +1,10 @@
 
-pool: 
-  vmImage: "ubuntu-latest"
-
-variables:
+parameters:
   buildConfiguration: "Release"
+  pool: "ubuntu-latest"
 
 stages:
+  - pool: ${{ parameters.pool }}
   - stage: Build
     jobs:
       - job: "DotNet"
@@ -14,6 +13,6 @@ stages:
             submodules: recursive
 
           - template: "./build.yml"
-          
+
       - job: "Docker"
         template: "../Docker/build.yml"
