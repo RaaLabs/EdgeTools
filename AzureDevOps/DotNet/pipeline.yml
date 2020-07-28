@@ -5,9 +5,9 @@ parameters:
 
 stages:
   - stage: Build
-    pool: ${{ parameters.pool }}
     jobs:
       - job: "DotNet"
+        pool: ${{ parameters.pool }}
         steps:
           - checkout: self
             submodules: recursive
@@ -15,4 +15,5 @@ stages:
           - template: "./build.yml"
 
       - job: "Docker"
+        pool: ${{ parameters.pool }}
         template: "../Docker/build.yml"
