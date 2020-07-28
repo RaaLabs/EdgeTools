@@ -1,7 +1,10 @@
 
 parameters:
-  buildConfiguration: "Release"
-  pool: "ubuntu-latest"
+- buildConfiguration: "Release"
+- pool: "ubuntu-latest"
+- name: "image"
+  default: "edge-image"
+  type: string
 
 
 jobs:
