@@ -1,0 +1,6 @@
+parameters:
+  - name: image
+    displayName: Pool Image
+    default: ubuntu-latest
+    values: 
+    - ubuntu-latest
