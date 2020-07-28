@@ -4,18 +4,16 @@ parameters:
   pool: "ubuntu-latest"
 
 
-jobs:
-  - job: "DotNet"
-    pool: ${{ parameters.pool }}
-    steps:
-      - checkout: self
-        submodules: recursive
+  jobs:
+    - job: "DotNet"
+      pool: ${{ parameters.pool }}
+      steps:
+        - checkout: self
+          submodules: recursive
 
-      - template: "./build.yml"
+        - template: "./build.yml"
 
-  - job: "Docker"
-    pool: ${{ parameters.pool }}
-    steps:
-    - script: versionTag=`git tag --sort=-version:refname | head -1` && echo "##vso[task.setvariable variable=versionTag]$versionTag"
-      displayName: Set the tag name as an environment variable
-    - bash: docker build --no-cache -f ./Source/Dockerfile -t $(imageName):$(versionTag) . --build-arg CONFIGURATION="Release"
+    - job: "Docker"
+      pool: ${{ parameters.pool }}
+      steps:
+        - template: "../Docker/build.yml"
