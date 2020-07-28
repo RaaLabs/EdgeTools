@@ -1,7 +1,4 @@
 steps:
-  - checkout: self
-    submodules: recursive
-
   - bash: dotnet restore --no-cache --verbosity normal
     displayName: Restore
 
