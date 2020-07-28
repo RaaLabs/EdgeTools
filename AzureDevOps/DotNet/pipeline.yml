@@ -8,6 +8,7 @@ parameters:
     - job: "DotNet"
       pool: 
         vmImage: "ubuntu-latest"
+        
       steps:
       - checkout: self
         submodules: recursive
