@@ -11,7 +11,7 @@ parameters:
   - ubuntu-latest
   - macOS-latest
   - windows-latest
-  
+
 - name: "image"
   default: "edge-image"
   type: string
@@ -27,3 +27,8 @@ jobs:
       submodules: recursive
 
     - template: "./build.yml"
+  - job: "Docker"
+    pool: 
+      vmImage: ${{ parameters.pool }}
+    steps: 
+    - template: "../Docker/build.yml"
