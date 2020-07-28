@@ -7,7 +7,7 @@ parameters:
   jobs:
     - job: "DotNet"
       pool: 
-        vmImage: ${{ parameters.pool }}
+        vmImage: "ubuntu-latest"
       steps:
         - checkout: self
           submodules: recursive
