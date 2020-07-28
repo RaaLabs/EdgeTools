@@ -11,5 +11,12 @@ parameters:
         - checkout: self
           submodules: recursive
 
-        - template: "./build.yml"
+        - bash: dotnet restore --no-cache --verbosity normal
+          displayName: Restore
+
+        - bash: dotnet build --no-restore --configuration Release
+          displayName: Build
+
+        - bash: dotnet test --configuration Release --no-build
+          displayName: Test
 
