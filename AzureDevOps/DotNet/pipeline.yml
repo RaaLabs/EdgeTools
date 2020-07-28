@@ -3,17 +3,16 @@ parameters:
   buildConfiguration: "Release"
   pool: "ubuntu-latest"
 
-stages:
-  - stage: "Build"
-    jobs:
-      - job: "DotNet"
-        pool: ${{ parameters.pool }}
-        steps:
-          - checkout: self
-            submodules: recursive
 
-          - template: "./build.yml"
+jobs:
+  - job: "DotNet"
+    pool: ${{ parameters.pool }}
+    steps:
+      - checkout: self
+        submodules: recursive
 
-      - job: "Docker"
-        pool: ${{ parameters.pool }}
-        template: "../Docker/build.yml"
+      - template: "./build.yml"
+
+  - job: "Docker"
+    pool: ${{ parameters.pool }}
+    template: "../Docker/build.yml"
