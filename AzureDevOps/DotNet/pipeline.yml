@@ -13,7 +13,3 @@ parameters:
 
         - template: "./build.yml"
 
-    - job: "Docker"
-      pool: ${{ parameters.pool }}
-      steps:
-        - template: "../Docker/build.yml"
