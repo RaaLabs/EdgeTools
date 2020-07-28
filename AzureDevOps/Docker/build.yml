@@ -1,4 +1,10 @@
+parameters:
+- name: "image"
+  default: "edge-image"
+  type: string
+
 steps:
 - script: versionTag=`git tag --sort=-version:refname | head -1` && echo "##vso[task.setvariable variable=versionTag]$versionTag"
   displayName: Set the tag name as an environment variable
 - bash: docker build --no-cache -f ./Source/Dockerfile -t  ${{ parameters.image }}:$(versionTag) . --build-arg CONFIGURATION="Release"
+  displayName: Build

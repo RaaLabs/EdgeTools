@@ -32,3 +32,5 @@ jobs:
       vmImage: ${{ parameters.pool }}
     steps: 
     - template: "../Docker/build.yml"
+      parameters:
+        image: ${{ parameters.image }}
